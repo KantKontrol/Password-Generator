@@ -18,6 +18,8 @@ var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
 var specChar = ["&", "%", "!", "@", "#"];
 
 
+
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -38,10 +40,11 @@ function generatePassword(){
 
   askLength();
   askCharacterTypes();
+  validateAns();
 
   for (var i = 0; i < passLength; i++){ //iterates through password length 
 
-    if(uncludeNum == true && includeSpec == true){
+    if(includeNum == true && includeSpec == true){ //both numbers and special characters
       var ran = Math.floor(Math.random() * 3);
 
       if(ran == 0){
@@ -49,10 +52,30 @@ function generatePassword(){
       }else if(ran == 1){
         genPassword+=randomChar();
       }else if(ran == 2){
-
+        genPassword+=randomNum();
       }
+    }
+    else if(includeNum == true && includeSpec == false){ //only numbers 
+      var ran = Math.floor(Math.random() * 2);
 
-      
+      if(ran == 0){
+        genPassword+=randomLetter();
+      }else if(ran == 1){
+        genPassword+=randomNum();
+      }
+  
+    }
+    else if(includeNum == false && includeSpec == true){ //only special characters
+      var ran = Math.floor(Math.random() * 2);
+
+      if(ran == 0){
+        genPassword+=randomLetter();
+      }else if(ran == 1){
+        genPassword+=randomChar();
+      }    
+    }
+    else{ //only letters
+      genPassword+=randomLetter();
     }
     
   }
@@ -82,9 +105,9 @@ function askCase(){
 
   while (!doneAsking){
 
-    passCase = prompt("LowerCase or UpperCase?");
+    passCase = prompt("LowerCase or UpperCase?").toLowerCase();
 
-    if(passCase.toLowerCase() == "lowercase" || passCase.toLowerCase() == "uppercase"){
+    if(passCase == "lowercase" || passCase == "uppercase"){
       doneAsking = true;
     }
   }
@@ -114,11 +137,13 @@ function askSpecialNum(){
 function validateAns(){
 
   if(passCase == "lowercase"){ //sets alphabet to case
-    alphabet = alphabet.toLowerCase();
+    for(var i = 0; i < alphabet.length; i++)
+      alphabet[i] = alphabet[i].toLowerCase();
   }
-  else
-    alphabet = alphabet.toUpperCase();
-
+  else{
+    for(var i = 0; i < alphabet.length; i++)
+      alphabet[i] = alphabet[i].toUpperCase();
+  }
 }
 
 function randomLetter(){
@@ -133,6 +158,11 @@ function randomChar(){
   return specChar[ran];
 }
 
+function randomNum(){
+  var ran = Math.floor(Math.random() * 10);
+
+  return ran;
+}
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
