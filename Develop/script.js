@@ -15,6 +15,9 @@ var includeSpec = false;
 
 var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
+var specChar = ["&", "%", "!", "@", "#"];
+
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
@@ -28,7 +31,7 @@ function writePassword() {
 
 function generatePassword(){
 
-  var genPassword;
+  var genPassword = "";
 
 
   //ask for critera
@@ -38,7 +41,19 @@ function generatePassword(){
 
   for (var i = 0; i < passLength; i++){ //iterates through password length 
 
-    
+    if(uncludeNum == true && includeSpec == true){
+      var ran = Math.floor(Math.random() * 3);
+
+      if(ran == 0){
+        genPassword+=randomLetter();
+      }else if(ran == 1){
+        genPassword+=randomChar();
+      }else if(ran == 2){
+
+      }
+
+      
+    }
     
   }
 
@@ -98,16 +113,24 @@ function askSpecialNum(){
 
 function validateAns(){
 
-
   if(passCase == "lowercase"){ //sets alphabet to case
     alphabet = alphabet.toLowerCase();
   }
   else
     alphabet = alphabet.toUpperCase();
 
-  numOfChar+=1;
+}
 
+function randomLetter(){
+  var ran = Math.floor(Math.random() * alphabet.length);
 
+  return alphabet[ran];
+}
+
+function randomChar(){
+  var ran = Math.floor(Math.random() * specChar.length);
+
+  return specChar[ran];
 }
 
 
