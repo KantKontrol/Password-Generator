@@ -54,7 +54,7 @@ function generatePassword(){
       if(includeNum == true && includeSpec == true){ //both numbers and special characters
         var ran = Math.floor(Math.random() * 3);
   
-        if(ran == 0){
+        if(ran == 0 && includeLower == true || includeUpper == true){
           genPassword+=randomLetter();
         }else if(ran == 1){
           genPassword+=randomChar();
@@ -65,7 +65,7 @@ function generatePassword(){
       else if(includeNum == true && includeSpec == false){ //only numbers 
         var ran = Math.floor(Math.random() * 2);
   
-        if(ran == 0){
+        if(ran == 0 && includeLower == true || includeUpper == true){
           genPassword+=randomLetter();
         }else if(ran == 1){
           genPassword+=randomNum();
@@ -75,7 +75,7 @@ function generatePassword(){
       else if(includeNum == false && includeSpec == true){ //only special characters
         var ran = Math.floor(Math.random() * 2);
   
-        if(ran == 0){
+        if(ran == 0 && includeLower == true || includeUpper == true){
           genPassword+=randomLetter();
         }else if(ran == 1){
           genPassword+=randomChar();
@@ -185,9 +185,29 @@ function validateAns(){
 }
 
 function randomLetter(){
-  var ran = Math.floor(Math.random() * alphabet.length);
+  var ran = Math.floor(Math.random() * alphabet.length); //gets random index from alphabet
 
-  return alphabet[ran];
+  var randomLetter = alphabet[ran]; //stores random letter at index to var
+
+  var ran = Math.floor(Math.random() * 2); //gets random between 0 and 1, used to choose either upper or lower case if both are true
+
+  if(ran == 0 && includeLower == true){
+    randomLetter = randomLetter.toLowerCase();
+    console.log("LOWER!" + randomLetter);
+  }
+  else if(ran == 0 && includeLower == false){
+    randomLetter = randomLetter.toUpperCase();
+  }
+  
+  if(ran == 1 && includeUpper == true){
+    randomLetter = randomLetter.toUpperCase();
+    console.log("UPPER!" + randomLetter);
+  }
+  else if(ran == 1 && includeUpper == false){
+    randomLetter = randomLetter.toLowerCase();
+  }
+
+  return randomLetter;
 }
 
 function randomChar(){
