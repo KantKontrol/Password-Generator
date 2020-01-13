@@ -5,6 +5,9 @@ var generateBtn = document.querySelector("#generate");
 
 var passCase = "";
 
+var includeLower = false;
+var includeUpper = false;
+
 var minPassLength = 8;
 var maxPassLength = 128;
 
@@ -39,46 +42,54 @@ function generatePassword(){
   //ask for critera
 
   askLength();
-  askCharacterTypes();
-  validateAns();
+  askCase();
+  askSpecialNum();
 
-  for (var i = 0; i < passLength; i++){ //iterates through password length 
-
-    if(includeNum == true && includeSpec == true){ //both numbers and special characters
-      var ran = Math.floor(Math.random() * 3);
-
-      if(ran == 0){
-        genPassword+=randomLetter();
-      }else if(ran == 1){
-        genPassword+=randomChar();
-      }else if(ran == 2){
-        genPassword+=randomNum();
-      }
-    }
-    else if(includeNum == true && includeSpec == false){ //only numbers 
-      var ran = Math.floor(Math.random() * 2);
-
-      if(ran == 0){
-        genPassword+=randomLetter();
-      }else if(ran == 1){
-        genPassword+=randomNum();
-      }
-  
-    }
-    else if(includeNum == false && includeSpec == true){ //only special characters
-      var ran = Math.floor(Math.random() * 2);
-
-      if(ran == 0){
-        genPassword+=randomLetter();
-      }else if(ran == 1){
-        genPassword+=randomChar();
-      }    
-    }
-    else{ //only letters
-      genPassword+=randomLetter();
-    }
-    
+  if(includeLower == false && includeUpper == false && includeSpec == false && includeNum == false){ //if nothing is true
+    alert("You need to include at least one type of character!");
   }
+  else{
+    for (var i = 0; i < passLength; i++){ //iterates through password length 
+
+      if(includeNum == true && includeSpec == true){ //both numbers and special characters
+        var ran = Math.floor(Math.random() * 3);
+  
+        if(ran == 0){
+          genPassword+=randomLetter();
+        }else if(ran == 1){
+          genPassword+=randomChar();
+        }else if(ran == 2){
+          genPassword+=randomNum();
+        }
+      }
+      else if(includeNum == true && includeSpec == false){ //only numbers 
+        var ran = Math.floor(Math.random() * 2);
+  
+        if(ran == 0){
+          genPassword+=randomLetter();
+        }else if(ran == 1){
+          genPassword+=randomNum();
+        }
+    
+      }
+      else if(includeNum == false && includeSpec == true){ //only special characters
+        var ran = Math.floor(Math.random() * 2);
+  
+        if(ran == 0){
+          genPassword+=randomLetter();
+        }else if(ran == 1){
+          genPassword+=randomChar();
+        }    
+      }
+      else{ //only letters
+        genPassword+=randomLetter();
+      }
+      
+    }
+  }
+  
+
+
 
     return genPassword;
 }
@@ -92,12 +103,6 @@ function askLength(){
     
     console.log("asked for length");
 }
-  
-
-function askCharacterTypes(){
-  askCase();
-  askSpecialNum();
-}
 
 function askCase(){
 
@@ -105,10 +110,43 @@ function askCase(){
 
   while (!doneAsking){
 
-    passCase = prompt("LowerCase or UpperCase?").toLowerCase();
+    var userInput = prompt("include lowercase? y/n").toLowerCase();
 
-    if(passCase == "lowercase" || passCase == "uppercase"){
+    if(userInput == "y"){
+
+      includeLower = true;
       doneAsking = true;
+
+    }
+    else if(userInput == "n"){
+
+      includeLower = false;
+      doneAsking = true;
+
+    }
+    else if(userInput != "y" && userInput != "n"){
+      doneAsking = false;
+    }
+  }
+
+  var doneAsking = false;
+
+  while (!doneAsking){
+
+    var userInput = prompt("include uppercase? y/n").toLowerCase();
+
+    if(userInput == "y"){
+      includeUpper = true;
+      doneAsking = true;
+    }
+    else if(userInput == "n"){
+
+      includeUpper = false;
+      doneAsking = true;
+      
+    }
+    else if(userInput != "y" && userInput != "n"){
+      doneAsking = false;
     }
   }
   
