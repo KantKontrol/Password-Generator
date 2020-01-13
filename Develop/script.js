@@ -1,9 +1,7 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-
-
-var passCase = "";
+var genPassword = "";
 
 var includeLower = false;
 var includeUpper = false;
@@ -36,7 +34,7 @@ function writePassword() {
 
 function generatePassword(){
 
-  var genPassword = "";
+  genPassword = "";
 
 
   //ask for critera
@@ -49,8 +47,12 @@ function generatePassword(){
     alert("You need to include at least one type of character!");
   }
   else{
-    for (var i = 0; i < passLength; i++){ //iterates through password length 
 
+    includeAll(); //makes sure all wanted criteria is added
+
+    for (var i = 1; i < passLength; i++){ //iterates through password length 
+
+      
       if(includeNum == true && includeSpec == true){ //both numbers and special characters
         var ran = Math.floor(Math.random() * 3);
   
@@ -92,6 +94,27 @@ function generatePassword(){
 
 
     return genPassword;
+}
+
+function includeAll(){
+  if(includeLower == true && includeUpper == true){
+    genPassword+=randomLetter(true);
+    passLength--;
+  }
+  else if(includeLower == true || inlcudeUpper == true){
+    genPassword+=randomLetter();
+    passLength--;
+  }
+
+  if(includeNum == true){
+    genPassword+=randomNum();
+    passLength--;
+  }
+
+  if(includeSpec == true){
+    genPassword+=randomChar();
+    passLength--;
+  }
 }
 
 function askLength(){
@@ -184,10 +207,31 @@ function validateAns(){
   }
 }
 
-function randomLetter(){
+function ranAlphabetCharacter(){
   var ran = Math.floor(Math.random() * alphabet.length); //gets random index from alphabet
 
-  var randomLetter = alphabet[ran]; //stores random letter at index to var
+  return alphabet[ran]
+}
+
+function randomLetter(includeBoth){
+
+  if(includeBoth){
+
+    var lowerLetter = ranAlphabetCharacter().toLowerCase();
+
+    console.log(lowerLetter);
+
+    var upperLetter = ranAlphabetCharacter().toUpperCase();
+
+    console.log(upperLetter);
+
+    return lowerLetter+upperLetter;
+  }
+ 
+
+  var randomLetter = ranAlphabetCharacter(); //stores random letter at index to var
+
+
 
   var ran = Math.floor(Math.random() * 2); //gets random between 0 and 1, used to choose either upper or lower case if both are true
 
