@@ -36,35 +36,34 @@ function generatePassword(){
 
   genPassword = "";
 
-
   //ask for critera
 
   askLength();
   askCase();
   askSpecialNum();
 
-  if(includeLower == false && includeUpper == false && includeSpec == false && includeNum == false){ //if nothing is true
+  if(includeLower == false && includeUpper == false && includeSpec == false && includeNum == false){ //if user didnt choose any criteria
     alert("You need to include at least one type of character!");
   }
   else{
 
-    includeAll(); //makes sure all wanted criteria is added
+    includeAll(); //makes sure all wanted criteria is added, changes password length accordingly
 
     for (var i = 1; i < passLength; i++){ //iterates through password length 
 
       
-      if(includeNum == true && includeSpec == true){ //both numbers and special characters
+      if(includeNum == true && includeSpec == true){ //both numbers and special characters and letters
         var ran = Math.floor(Math.random() * 3);
   
-        if(ran == 0 && includeLower == true || includeUpper == true){
-          genPassword+=randomLetter();
+        if(ran == 0 && includeLower == true || includeUpper == true){ //if the user asked for any letters
+          genPassword+=randomLetter(); //randomLetter() deals with either the lower/upper or both
         }else if(ran == 1){
           genPassword+=randomChar();
         }else if(ran == 2){
           genPassword+=randomNum();
         }
       }
-      else if(includeNum == true && includeSpec == false){ //only numbers 
+      else if(includeNum == true && includeSpec == false){ //only numbers and letters
         var ran = Math.floor(Math.random() * 2);
   
         if(ran == 0 && includeLower == true || includeUpper == true){
@@ -74,7 +73,7 @@ function generatePassword(){
         }
     
       }
-      else if(includeNum == false && includeSpec == true){ //only special characters
+      else if(includeNum == false && includeSpec == true){ //only special characters and letters
         var ran = Math.floor(Math.random() * 2);
   
         if(ran == 0 && includeLower == true || includeUpper == true){
@@ -89,9 +88,6 @@ function generatePassword(){
       
     }
   }
-  
-
-
 
     return genPassword;
 }
@@ -101,7 +97,7 @@ function includeAll(){
     genPassword+=randomLetter(true);
     passLength--;
   }
-  else if(includeLower == true || inlcudeUpper == true){
+  else if(includeLower == true || includeUpper == true){
     genPassword+=randomLetter();
     passLength--;
   }
@@ -127,11 +123,12 @@ function askLength(){
     console.log("asked for length");
 }
 
-function askCase(){
+function askCase(){ //function designed to see which case letter the user wants to add to their password
 
   var doneAsking = false;
 
-  while (!doneAsking){
+  while (!doneAsking){ //The "done asking" code with the while loops and what not is dry, i wouldve put it into a function but I ran out of time with work and all
+                       //
 
     var userInput = prompt("include lowercase? y/n").toLowerCase();
 
@@ -178,24 +175,40 @@ function askCase(){
 
 function askSpecialNum(){
 
-  
+  var doneAsking = false;
 
-  var ans = prompt("include numbers? y/n");
+  while(!doneAsking){
+    var ans = prompt("include numbers? y/n");
 
-  if(ans.toLowerCase() == "y"){
-    includeNum = true;
+    if(ans.toLowerCase() == "y"){
+      includeNum = true;
+      doneAsking = true;
+    }
+    else if(ans.toLowerCase() == "n"){
+      includeNum = false;
+      doneAsking = true;
+    }
   }
 
-  var ans = prompt("include special characters? y/n");
+  var doneAsking = false;
 
-  if(ans.toLowerCase() == "y"){
-    includeSpec = true;
+  while(!doneAsking){
+    var ans = prompt("include special characters? y/n");
+
+    if(ans.toLowerCase() == "y"){
+      includeSpec = true;
+      doneAsking = true;
+    }
+    else if(ans.toLowerCase() == "n"){
+      includeSpec = false;
+      doneAsking = true;
+    }
   }
 
   console.log("ased for special characters");
 }
 
-function validateAns(){
+/*function validateAns(){
 
   if(passCase == "lowercase"){ //sets alphabet to case
     for(var i = 0; i < alphabet.length; i++)
@@ -205,7 +218,7 @@ function validateAns(){
     for(var i = 0; i < alphabet.length; i++)
       alphabet[i] = alphabet[i].toUpperCase();
   }
-}
+}*/
 
 function ranAlphabetCharacter(){
   var ran = Math.floor(Math.random() * alphabet.length); //gets random index from alphabet
