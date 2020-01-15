@@ -141,6 +141,8 @@ function includeAll(){
 
 function askLength(){
 
+  passLength = 0;
+
   //if length fits criteria
     while(!(passLength >= minPassLength && passLength <= maxPassLength)){ //while passLength is not within 8 - 128
       passLength = parseInt(prompt("Type length of password from 8 to 128"));
@@ -260,23 +262,29 @@ function randomLetter(includeBoth){
 
 
 
-  var ran = Math.floor(Math.random() * 2); //gets random between 0 and 1, used to choose either upper or lower case if both are true
+  if(includeLower && includeUpper){ //if user wants both
 
-  if(ran == 0 && includeLower == true){
+    var ran = Math.floor(Math.random() * 2); //gets random between 0 and 1, used to choose either upper or lower case if both are true
+
+    if(ran == 0){
+     randomLetter = randomLetter.toLowerCase();
+     console.log(ran + " chose lower");
+    }else if(ran == 1){
+      randomLetter = randomLetter.toUpperCase();
+      console.log(ran + " chose upper");
+    }
+
+
+  }else if(includeLower && !includeUpper){ //if user only wants lowercase
+    
     randomLetter = randomLetter.toLowerCase();
-    console.log("LOWER!" + randomLetter);
-  }
-  else if(ran == 0 && includeLower == false){
+
+  }else if(!includeLower && includeUpper){ //if user wants only uppercasw
+
     randomLetter = randomLetter.toUpperCase();
+
   }
-  
-  if(ran == 1 && includeUpper == true){
-    randomLetter = randomLetter.toUpperCase();
-    console.log("UPPER!" + randomLetter);
-  }
-  else if(ran == 1 && includeUpper == false){
-    randomLetter = randomLetter.toLowerCase();
-  }
+
 
   return randomLetter;
 }
