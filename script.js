@@ -47,49 +47,75 @@ function generatePassword(){
   }
   else{
 
-    includeAll(); //makes sure all wanted criteria is added, changes password length accordingly
+   // includeAll(); //makes sure all wanted criteria is added, changes password length accordingly
 
-    for (var i = 1; i < passLength; i++){ //iterates through password length 
+   var startArray = [];
 
-      
-      if(includeNum == true && includeSpec == true){ //both numbers and special characters and letters
-        var ran = Math.floor(Math.random() * 3);
-  
-        if(ran == 0 && includeLower == true || includeUpper == true){ //if the user asked for any letters
-          genPassword+=randomLetter(); //randomLetter() deals with either the lower/upper or both
-        }else if(ran == 1){
-          genPassword+=randomChar();
-        }else if(ran == 2){
-          genPassword+=randomNum();
-        }
-      }
-      else if(includeNum == true && includeSpec == false){ //only numbers and letters
-        var ran = Math.floor(Math.random() * 2);
-  
-        if(ran == 0 && includeLower == true || includeUpper == true){
-          genPassword+=randomLetter();
-        }else if(ran == 1){
-          genPassword+=randomNum();
-        }
-    
-      }
-      else if(includeNum == false && includeSpec == true){ //only special characters and letters
-        var ran = Math.floor(Math.random() * 2);
-  
-        if(ran == 0 && includeLower == true || includeUpper == true){
-          genPassword+=randomLetter();
-        }else if(ran == 1){
-          genPassword+=randomChar();
-        }    
-      }
-      else{ //only letters
-        genPassword+=randomLetter();
-      }
-      
-    }
+   startArray = makeStartArray(); //returns an array of only letters so we can replace them with what the user wants
+
+   genPassword = addCriteria(startArray);
+
+
+
   }
 
     return genPassword;
+}
+
+function addCriteria(startArray){
+
+  var criteriaPassword = "";
+
+  for (var i = 0; i < startArray.length; i++){
+
+    if(includeNum && includeSpec){
+      if(includeUpper || includeLower){
+  
+        var ran = Math.floor(Math.random() * 3);
+        
+  
+        if(ran == 0){ //letters
+          startArray[i] = randomLetter();
+        }else if(ran == 1){ //num
+          startArray[i] = randomNum();
+        }else if(ran == 2){ //spec
+          startArray[i] = randomChar();
+        }
+  
+      }
+    }
+
+
+  }//end of for loop
+
+  criteriaPassword = arrayToString(startArray);
+
+  return criteriaPassword;
+}//end of function
+
+function makeStartArray(){
+
+  var startString = "";
+  var startArray = [];
+
+  for (var i = 0; i < passLength; i++){ //iterates through password length 
+
+    startString+=randomLetter();
+
+    startArray = startString.split('');
+   
+  }
+
+  return startArray;
+}
+
+function arrayToString(array){
+
+  var arrayAsString = "";
+
+  arrayAsString = array.join('');
+
+  return arrayAsString;
 }
 
 function includeAll(){
@@ -207,18 +233,6 @@ function askSpecialNum(){
 
   console.log("ased for special characters");
 }
-
-/*function validateAns(){
-
-  if(passCase == "lowercase"){ //sets alphabet to case
-    for(var i = 0; i < alphabet.length; i++)
-      alphabet[i] = alphabet[i].toLowerCase();
-  }
-  else{
-    for(var i = 0; i < alphabet.length; i++)
-      alphabet[i] = alphabet[i].toUpperCase();
-  }
-}*/
 
 function ranAlphabetCharacter(){
   var ran = Math.floor(Math.random() * alphabet.length); //gets random index from alphabet
