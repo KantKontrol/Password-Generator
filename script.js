@@ -47,15 +47,11 @@ function generatePassword(){
   }
   else{
 
-   // includeAll(); //makes sure all wanted criteria is added, changes password length accordingly
-
    var startArray = [];
 
    startArray = makeStartArray(); //returns an array of only letters so we can replace them with what the user wants
 
    genPassword = addCriteria(startArray);
-
-
 
   }
 
@@ -65,6 +61,11 @@ function generatePassword(){
 function addCriteria(startArray){
 
   var criteriaPassword = "";
+
+  var defString = includeAll(); //include all returns a array of everything that the user wants in their password
+
+  console.log("defString: " + defString);
+  console.log("defString length: " + defString.length);
 
   for (var i = 0; i < startArray.length; i++){
 
@@ -130,7 +131,13 @@ function addCriteria(startArray){
 
   }//end of for loop
 
+  for(var i = 0; i < defString.length;i++){ //changes beggining of array with the definite characters the user wants
+    startArray[i] = defString.substring(i);
+  }
+
   criteriaPassword = arrayToString(startArray);
+
+  console.log("Final password length: " + criteriaPassword.length);
 
   return criteriaPassword;
 }//end of function
@@ -161,24 +168,25 @@ function arrayToString(array){
 }
 
 function includeAll(){
-  if(includeLower == true && includeUpper == true){
-    genPassword+=randomLetter(true);
-    passLength--;
-  }
-  else if(includeLower == true || includeUpper == true){
-    genPassword+=randomLetter();
-    passLength--;
+
+  var defString = "";
+
+  if(includeLower && includeUpper){
+    defString+=randomLetter(true);
+
+  }else if(includeLower || includeUpper){
+    defString+=randomLetter();
   }
 
-  if(includeNum == true){
-    genPassword+=randomNum();
-    passLength--;
+  if(includeNum){
+    defString+=randomNum();
   }
 
-  if(includeSpec == true){
-    genPassword+=randomChar();
-    passLength--;
+  if(includeSpec){
+    defString+=randomChar();
   }
+
+  return defString;
 }
 
 function askLength(){
