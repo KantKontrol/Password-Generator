@@ -68,8 +68,8 @@ function addCriteria(startArray){
 
   for (var i = 0; i < startArray.length; i++){
 
-    if(includeNum && includeSpec){
-      if(includeUpper || includeLower){
+    if(includeNum && includeSpec){// user wants both num and special characters
+      if(includeUpper || includeLower){ //user wants some kind of letter
   
         var ran = Math.floor(Math.random() * 3);
         
@@ -83,6 +83,48 @@ function addCriteria(startArray){
         }
   
       }
+      else{ //if user wants no letters
+        var ran = Math.floor(Math.random() * 2);
+
+
+        if(ran == 0){ //num
+          startArray[i] = randomNum();
+        }else if(ran == 1){ //spec
+          startArray[i] = randomChar();
+        }
+      }
+    }else if(includeNum && !includeSpec){ //user only wants numbers
+      if(includeUpper || includeLower){ //if user wants some kind of letter
+  
+        var ran = Math.floor(Math.random() * 2);
+  
+        if(ran == 0){ //letters
+          startArray[i] = randomLetter();
+        }else if(ran == 1){ //num
+          startArray[i] = randomNum();
+        }
+  
+      }
+      else{ //if user wants no letters
+          startArray[i] = randomNum();
+      }
+    }else if(!includeNum && includeSpec){ //user only wants special characters
+      if(includeUpper || includeLower){ //if user wants some kind of letter
+  
+        var ran = Math.floor(Math.random() * 2);
+  
+        if(ran == 0){ //letters
+          startArray[i] = randomLetter();
+        }else if(ran == 1){ //spec
+          startArray[i] = randomChar();
+        }
+  
+      }
+      else{ //if user wants no letters
+          startArray[i] = randomChar();
+      }
+    }else{ //user wants only letters
+      startArray[i] = randomLetter();
     }
 
 
